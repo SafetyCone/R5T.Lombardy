@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\R5T.Lombardy.Test\source\R5T.Lombardy.Test\R5T.Lombardy.Test.csproj" />
     <ProjectReference Include="..\R5T.Lombardy\R5T.Lombardy.csproj" />
   </ItemGroup>
 
