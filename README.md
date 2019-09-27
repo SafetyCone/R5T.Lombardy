@@ -23,6 +23,18 @@ Some of these options have default assumptions:
 3. Which directory separator: Windows or non-Windows. There is no default assumption made about paths, with both path formats being equally valid.
 4. Use of relative directory names: resolved. Resolved paths are "paths", unresolved paths are "unresolved paths". Everyone prefers to read resolved paths and only resolved paths can actually be used to identify a resouce. Thus, with an unresolved path work must be done to follow all relative directory names to get a final resolved path.
 
+## Terminology
+
+- Root-indicated: If a path starts with a directory separator, then it is root-indicated. The path may not be rooted, and is only root-*indicated*, since determining if a path is rooted requires extra work is required, and in some cases can only be determined from context.
+- Absolute (rooted) path: An absolute (or rooted) path starts with a root. Note that only absolute paths can actually be used to locate file-system resources. All rooted paths are root-indicated, but not all root-indicated paths are rooted.
+- Relative path: A relative path does not start with a root, and must be combined with a rooted path to actually locate a file-system resource. All relative paths are *not* root-indicated.
+- Directory-indicated: If a path ends with a directory separator, then it is directory-indicated. The path may not actually be a directory path, since a file-path can in fact end with a directory separator and it's up to the file-system to actually determine if a path leads to a file or directory. Conversely, a non-directory indicated path may actually be a directory. In fact, most directory paths do *not* include the ending directory separator, again leaving it up to the file-system to actually determine if the path leads to a file or directory. Thus a path is only directory-*indicated* if it ends with a directory separator.
+- File path: a path to a file. File paths generally have a file extension, but do not have to. File paths generally are not directory-indicated, but it's up to the file-system to actually determine if a path leads to a file or directory.
+- Directory path: a path to a directory. Directores *are* files, but special files that contain pointers to other files. Directory paths are generally *not* root-indicated, which is weird. So it's up to the file-system to actually determine if a path leads to a file or directory.
+- Windows or Non-Windows. Windows is special, in the difficult-child type of way. It uses a the opposite directory separator from everything else; back-slash ('\\') instead of slash ('/'). This, perversely, makes classifying paths easy: they are Windows or everything else. Thus Windows gets to the be the fundamental for directory separators, where all others operating systems use the non-Windows directory separator.
+- Mixed: A path might contain both Windows and Non-Windows directory separators. In this case it is a mixed path.
+- Dominant directory separator: In a mixed path, whichever directory separator is encountered first (is closer to the root of the path) is the dominant directory separator, and the dominant directory separator determines whether a mixed path is a Windows path or a Non-Windows path.
+- Resolved and Unresolved: Paths can contain relative directory names, which are '.' for the current directory and ('..') for the parent directory. An unresolved path contains relative directory names. After work is done to *resolve* the unresolved path by following relative directory names and replacing them with the name of an actual directory, then the path is a resolved path. Note that only resolved paths can actually be used to locate file-system resources and all unresolved paths must first be resolved, either by code or the OS itself.
 
 # A Taxonomy of Path Operations
 The species of path operations fall into several genuses:
@@ -36,12 +48,64 @@ The species of path operations fall into several genuses:
 
 While there are a variety of path operations, these operations come in several different types:
 
-- Simple: simple operations perform no validation or manipulation of input arguments. These simple operations allow conceptual clarity, or the base implementations of operations which non-simple versions of the operation call after performing validation and manipulations on input arguments.
+- Unchecked: unchecked operations skip performing any validation checks on input arguments and go straight to performing an operation. Unchecked operations provide conceptual simplicity, allow non-standard uses, and are frequently the base versions of an operation called by more complicated versions of an operation. These unchecked operations are frequently used "internally" after inputs have been checked.
 
-- Unchecked: unchecked operations skip performing input validation for conceptual simplicity, to allow non-standard uses, and finally for speed. These unchecked operations are frequently used "internally" after inputs have been chedked.
+- Simple: simple operations perform validation checks on input arguments, but do not manipulate inputs to ensure the inputs pass those checks, instead opting to throw an exception. These simple operations allow conceptual clarity, or are the base implementations of operations which non-simple versions of the operation call after performing validation and manipulations on input arguments.
 
-- Base (or default): To guide clients towards methods implementing the most robust and useful versions of operations, the names of methods implementing the simple and unchecked versions of an operation are qualified (suffixed) with "-Simple" and "-Unchecked". The names of methods implementing the un-simple, checked, versions of an operation are left unqualified. Thus the base, or default versions of an operation are more likely to be used since they have unqualified names.
+- Base (or default): operations by default check their inputs and manipulate those inputs if required so they pass validation. To guide clients towards methods implementing these most robust and useful versions of operations, the names of methods implementing the simple and unchecked versions of an operation are qualified (suffixed) with "-Simple" and "-Unchecked". The names of methods implementing the checked, un-simple, versions of an operation are left unqualified. Thus the base, or default versions of an operation are more likely to be used since they have unqualified names.
  
-## List of Path Operations
+# List of Path Operations
+
+- Combine
+- Get relative path
+- Resolve path
+- Get default directory separator
+- Detect directory separator
+- Validation of directory separator argument
+- Exists
+- Is
+- Ensure
+- Validation that string is a path. (Does not contain any invalid characters, is not too long.)
 
 
+## Combine
+
+- CombineUnchecked
+- CombineSimple
+- Combine
+
+
+## Get default directory separator
+
+- Get the default directory separator.
+- Set the default directory separator.
+- Get the default directory separator for the current machine environment.
+- Get the alternate directory separator for the current machine environment.
+- Given a directory separator, get the alternate directory separator.
+
+
+## Detect directory separator
+
+- ContainsWindowsDirectorySeparator
+- ContainsNonWindowsDirectorySeparator
+- HasMixedDirectorySeparators
+- DetermineDominantDirectorySeparator
+- IsWindowsPath
+- IsNonWindowsPath
+
+
+# Exceptions
+
+There are several exceptions that communicate problems with path operation inputs.
+
+All of these exceptions start as being of type ArgumentException, but can be given their own exception type if desired.
+
+- InvalidDirectorySeparator
+- PathIsRootIndicated
+- PathIsNotRootIndicated
+- PathIsDirectoryIndicated
+- PathIsNotDirectoryIndicated
+- PathIsWindowsPath
+- PathIsNonWindowsPath
+- PathIsUnresolved
+- PathIsResolved
