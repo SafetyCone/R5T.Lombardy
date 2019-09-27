@@ -24,3 +24,24 @@ Some of these options have default assumptions:
 4. Use of relative directory names: resolved. Resolved paths are "paths", unresolved paths are "unresolved paths". Everyone prefers to read resolved paths and only resolved paths can actually be used to identify a resouce. Thus, with an unresolved path work must be done to follow all relative directory names to get a final resolved path.
 
 
+# A Taxonomy of Path Operations
+The species of path operations fall into several genuses:
+
+- Combine: The fundamental path operation is combining multiple path segments into a single path segment.
+- Separate: Second most important opertation is separating a single path segment into multiple path segments, or extracting a single part of path segment.
+- Classify: Given a path, where does it fit into the taxonomy of paths? Frequently classification is implemented by an `Is()` method, as in `IsRootIndicatedPath()` or `IsWindowsPath()`.
+- Ensure: For (nearly) every `Is()` method there is, an `Ensure()` method. For example `EnsureIsRootIndicated()` or `EnsureWindowsPath()`.
+- Resolve: Given an unresolved path, resolve the path.
+- Detect: Given a path, determine some property of the path.
+
+While there are a variety of path operations, these operations come in several different types:
+
+- Simple: simple operations perform no validation or manipulation of input arguments. These simple operations allow conceptual clarity, or the base implementations of operations which non-simple versions of the operation call after performing validation and manipulations on input arguments.
+
+- Unchecked: unchecked operations skip performing input validation for conceptual simplicity, to allow non-standard uses, and finally for speed. These unchecked operations are frequently used "internally" after inputs have been chedked.
+
+- Base (or default): To guide clients towards methods implementing the most robust and useful versions of operations, the names of methods implementing the simple and unchecked versions of an operation are qualified (suffixed) with "-Simple" and "-Unchecked". The names of methods implementing the un-simple, checked, versions of an operation are left unqualified. Thus the base, or default versions of an operation are more likely to be used since they have unqualified names.
+ 
+## List of Path Operations
+
+
