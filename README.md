@@ -35,6 +35,8 @@ Some of these options have default assumptions:
 - Mixed: A path might contain both Windows and Non-Windows directory separators. In this case it is a mixed path.
 - Dominant directory separator: In a mixed path, whichever directory separator is encountered first (is closer to the root of the path) is the dominant directory separator, and the dominant directory separator determines whether a mixed path is a Windows path or a Non-Windows path.
 - Resolved and Unresolved: Paths can contain relative directory names, which are '.' for the current directory and ('..') for the parent directory. An unresolved path contains relative directory names. After work is done to *resolve* the unresolved path by following relative directory names and replacing them with the name of an actual directory, then the path is a resolved path. Note that only resolved paths can actually be used to locate file-system resources and all unresolved paths must first be resolved, either by code or the OS itself.
+- Ensure: Given some boolean test, like `IsXXX()`, in case of failure ensure methods remedy the failure by manipulating the value so that it will pass the test. Because paths are relative simple constructs and generally their boolean tests are simple, remedying failure is usually simple and desireable from the perspective of robustness.
+- Qualified: To guide clients towards the most useful and robust implementations of methods, these implementation methods get the default operation name without any *qualifying* suffixes (ex: "-Simple", "-Unresolved", "-Multiple" etc.).
 
 # A Taxonomy of Path Operations
 The species of path operations fall into several genuses:
@@ -42,7 +44,7 @@ The species of path operations fall into several genuses:
 - Combine: The fundamental path operation is combining multiple path segments into a single path segment.
 - Separate: Second most important opertation is separating a single path segment into multiple path segments, or extracting a single part of path segment.
 - Classify: Given a path, where does it fit into the taxonomy of paths? Frequently classification is implemented by an `Is()` method, as in `IsRootIndicatedPath()` or `IsWindowsPath()`.
-- Ensure: For (nearly) every `Is()` method there is, an `Ensure()` method. For example `EnsureIsRootIndicated()` or `EnsureWindowsPath()`.
+- Ensure: For (nearly) every `Is()` method there is, an `Ensure()` method. Ensure methods call `Is()` methods, but in the case of failure, then manipulate the input to remedy the failure. Since paths are generally simple constructs, remedies for failures are usually simple fixes that are desirable for robustness. Examples: `EnsureIsRootIndicated()` or `EnsureWindowsPath()`.
 - Resolve: Given an unresolved path, resolve the path.
 - Detect: Given a path, determine some property of the path.
 
