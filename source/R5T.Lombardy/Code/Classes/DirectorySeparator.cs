@@ -128,7 +128,7 @@ namespace R5T.Lombardy
         /// <summary>
         /// Resets the default value so that the platform default value is used.
         /// </summary>
-        private static void ResetDefault()
+        public static void ResetDefault()
         {
             DirectorySeparator.zDefault = DirectorySeparator.Invalid;
         }
@@ -377,16 +377,16 @@ namespace R5T.Lombardy
         /// Between the Windows ('\', back-slash) and the non-Windows ('/', slash) directory separators, given one, return the other.
         /// Unchecked - If the input directory separator is neither the Windows nor non-Windows separator, the Windows separator is returned.
         /// </summary>
-        public static string GetAlternateDirectorySeparatorUnchecked(char directorySeparator)
+        public static char GetAlternateDirectorySeparatorUnchecked(char directorySeparator)
         {
             var isWindows = DirectorySeparator.IsWindowsDirectorySeparator(directorySeparator);
             if (isWindows)
             {
-                return DirectorySeparator.NonWindows;
+                return DirectorySeparator.NonWindowsChar;
             }
             else
             {
-                return DirectorySeparator.Windows;
+                return DirectorySeparator.WindowsChar;
             }
         }
 
@@ -394,7 +394,7 @@ namespace R5T.Lombardy
         /// Between the Windows ('\', back-slash) and the non-Windows ('/', slash) directory separator, given one, return the other.
         /// Checked - Validates the directory separator first.
         /// </summary>
-        public static string GetAlternateDirectorySeparator(char directorySeparator)
+        public static char GetAlternateDirectorySeparator(char directorySeparator)
         {
             DirectorySeparator.Validate(directorySeparator);
 
