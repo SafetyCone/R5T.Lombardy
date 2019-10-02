@@ -52,9 +52,11 @@ While there are a variety of path operations, these operations come in several d
 
 - Unchecked: unchecked operations skip performing any validation checks on input arguments and go straight to performing an operation. Unchecked operations provide conceptual simplicity, allow non-standard uses, and are frequently the base versions of an operation called by more complicated versions of an operation. These unchecked operations are frequently used "internally" after inputs have been checked.
 
-- Simple: simple operations perform validation checks on input arguments, but do not manipulate inputs to ensure the inputs pass those checks, instead opting to throw an exception. These simple operations allow conceptual clarity, or are the base implementations of operations which non-simple versions of the operation call after performing validation and manipulations on input arguments.
+- Checked: checked operations perform validation checks on input arguments, but do not manipulate inputs to ensure the inputs pass those checks, instead opting to throw an exception. These checked operations allow conceptual clarity, or are the base implementations of operations which ensured versions of the operation call after performing validation and manipulations on input arguments.
 
-- Base (or default): operations by default check their inputs and manipulate those inputs if required so they pass validation. To guide clients towards methods implementing these most robust and useful versions of operations, the names of methods implementing the simple and unchecked versions of an operation are qualified (suffixed) with "-Simple" and "-Unchecked". The names of methods implementing the checked, un-simple, versions of an operation are left unqualified. Thus the base, or default versions of an operation are more likely to be used since they have unqualified names.
+- Ensured: path validation checks are generally simple enough that if input validation checks fail, the input can be manipulated so that is passes the validation check (for example, if a path is not directory indicated, an appropriate directory separator can be added to the end of the path). Ensured versions of an operation ensure their inputs have the correct form before performing an operation.
+
+- Base (or default): one of the unchecked, checked, or ensured operations is chosen to be the default for each specific operation, depending on what is usually expected in a context. Generally, the ensured operation is the default. To guide clients towards methods implementing these most robust and useful versions of operations, the names of methods implementing the unchecked, checked, and ensured versions of an operation are qualified (suffixed) with "-Unchecked", "-Checked", or "-Ensured". The default method name is left unqualified. Thus the base, or default versions of an operation are more likely to be used since they have unqualified names.
  
 # List of Path Operations
 
@@ -103,6 +105,9 @@ There are several exceptions that communicate problems with path operation input
 All of these exceptions start as being of type ArgumentException, but can be given their own exception type if desired.
 
 - InvalidDirectorySeparator
+- WindowsDirectorySeparatorExpected
+- NonWindowsDirectorySeparatorExpected
+- UnableToDetectDirectorySeparator
 - PathIsRootIndicated
 - PathIsNotRootIndicated
 - PathIsDirectoryIndicated
