@@ -55,6 +55,7 @@ namespace R5T.Lombardy
                 }
             }
         }
+        public static char[] ValidDirectorySeparatorChars => new char[] { DirectorySeparator.WindowsChar, DirectorySeparator.NonWindowsChar };
 
         public const string Invalid = null;
         public const string Windows = @"\";
@@ -118,6 +119,7 @@ namespace R5T.Lombardy
                 }
             }
         }
+        public static string[] ValidDirectorySeparators => new string[] { DirectorySeparator.Windows, DirectorySeparator.NonWindows };
 
 
         static DirectorySeparator()
@@ -239,8 +241,14 @@ namespace R5T.Lombardy
 
         public static bool IsValid(char directorySeparator)
         {
-            var output = !DirectorySeparator.IsInvalid(directorySeparator);
-            return output;
+            var isInvalid = DirectorySeparator.IsInvalid(directorySeparator);
+            if(isInvalid)
+            {
+                return false;
+            }
+
+            var isDirectorySeparator = DirectorySeparator.IsDirectorySeparator(directorySeparator);
+            return isDirectorySeparator;
         }
 
         /// <summary>
@@ -412,8 +420,14 @@ namespace R5T.Lombardy
 
         public static bool IsValid(string directorySeparator)
         {
-            var output = !DirectorySeparator.IsInvalid(directorySeparator);
-            return output;
+            var isInvalid = DirectorySeparator.IsInvalid(directorySeparator);
+            if(isInvalid)
+            {
+                return false;
+            }
+
+            var isDirectorySeparator = DirectorySeparator.IsDirectorySeparator(directorySeparator);
+            return isDirectorySeparator;
         }
 
         /// <summary>
@@ -686,7 +700,7 @@ namespace R5T.Lombardy
         /// <summary>
         /// Detects the directory separator used in a path segment, or if no directory separator can be detected, returns to the Windows value.
         /// </summary>
-        public static string DetectDirectorySeparatorOrDefaultWindows(string pathSegment)
+        public static string DetectDirectorySeparatorOrWindows(string pathSegment)
         {
             var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrDefault(pathSegment, DirectorySeparator.Windows);
             return directorySeparator;
@@ -695,10 +709,39 @@ namespace R5T.Lombardy
         /// <summary>
         /// Detects the directory separator used in a path segment, or if no directory separator can be detected, defaults to the non-Windows value.
         /// </summary>
-        public static string DetectDirectorySeparatorOrDefaultNonWindows(string pathSegment)
+        public static string DetectDirectorySeparatorOrNonWindows(string pathSegment)
         {
             var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrDefault(pathSegment, DirectorySeparator.NonWindows);
             return directorySeparator;
+        }
+
+        /// <summary>
+        /// Detects the directory separator used in a path segment, or if no directory separator can be detected, defaults to the non-Windows value.
+        /// </summary>
+        public static string DetectDirectorySeparatorOrInvalid(string pathSegment)
+        {
+            var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrDefault(pathSegment, DirectorySeparator.Invalid);
+            return directorySeparator;
+        }
+
+        public static string DetectDirectorySeparatorOrDefault(params string[] pathSegments)
+        {
+            var directorySeparator = DirectorySeparator.Invalid;
+
+            var nSegments = pathSegments.Length;
+            for (int iSegment = 0; iSegment < nSegments; iSegment++)
+            {
+                var pathSegment = pathSegments[iSegment];
+
+                directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrInvalid(pathSegment);
+                if (DirectorySeparator.IsValid(directorySeparator))
+                {
+                    return directorySeparator;
+                }
+            }
+
+            // Else, return default.
+            return DirectorySeparator.Default;
         }
 
         /// <summary>
@@ -711,7 +754,7 @@ namespace R5T.Lombardy
         }
 
         /// <summary>
-        /// Determines if the specified directory separator is detected for the path segment.
+        /// Determines if the specified directory separator is detected in the path segment.
         /// Unchecked - No validation is performed on the input directory separator.
         /// </summary>
         public static bool IsDirectorySeparatorDetectedUnchecked(string pathSegment, string directorySeparator)
@@ -752,7 +795,7 @@ namespace R5T.Lombardy
         /// </summary>
         public static bool IsWindowsDirectorySeparatorDetectedAssumeWindows(string pathSegment)
         {
-            var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrDefaultWindows(pathSegment);
+            var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrWindows(pathSegment);
 
             var isWindows = DirectorySeparator.IsWindowsDirectorySeparator(directorySeparator);
             return isWindows;
@@ -772,7 +815,7 @@ namespace R5T.Lombardy
         /// </summary>
         public static bool IsNonWindowsDirectorySeparatorDetectedAssumeNonWindows(string pathSegment)
         {
-            var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrDefaultNonWindows(pathSegment);
+            var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrNonWindows(pathSegment);
 
             var isNonWindows = DirectorySeparator.IsNonWindowsDirectorySeparator(directorySeparator);
             return isNonWindows;

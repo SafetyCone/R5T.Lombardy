@@ -23,6 +23,7 @@ namespace R5T.Lombardy
                 DirectorySeparator.DefaultChar = value;
             }
         }
+        public char[] ValidDirectorySeparatorChars => DirectorySeparator.ValidDirectorySeparatorChars;
 
         public string InvalidDirectorySeparator => DirectorySeparator.Invalid;
         public string WindowsDirectorySeparator => DirectorySeparator.Windows;
@@ -40,6 +41,7 @@ namespace R5T.Lombardy
                 DirectorySeparator.Default = value;
             }
         }
+        public string[] ValidDirectorySeparators => DirectorySeparator.ValidDirectorySeparators;
 
 
         public void ResetDefaultDirectorySeparator()
@@ -295,15 +297,21 @@ namespace R5T.Lombardy
             return output;
         }
 
-        public string DetectDirectorySeparatorOrDefaultWindows(string pathSegment)
+        public string DetectDirectorySeparatorOrWindows(string pathSegment)
         {
-            var output = DirectorySeparator.DetectDirectorySeparatorOrDefaultWindows(pathSegment);
+            var output = DirectorySeparator.DetectDirectorySeparatorOrWindows(pathSegment);
             return output;
         }
 
-        public string DetectDirectorySeparatorOrDefaultNonWindows(string pathSegment)
+        public string DetectDirectorySeparatorOrNonWindows(string pathSegment)
         {
-            var output = DirectorySeparator.DetectDirectorySeparatorOrDefaultNonWindows(pathSegment);
+            var output = DirectorySeparator.DetectDirectorySeparatorOrNonWindows(pathSegment);
+            return output;
+        }
+
+        public string DetectDirectorySeparatorOrInvalid(string pathSegment)
+        {
+            var output = DirectorySeparator.DetectDirectorySeparatorOrInvalid(pathSegment);
             return output;
         }
 
