@@ -25,6 +25,9 @@ Some of these options have default assumptions:
 
 ## Terminology
 
+- Path part: the individual pieces of which a path is made. For example, the path "C:\Temp01\Temp02\Temp01.txt" is made of the path parts "C:", "Temp01", "Temp02", and "Temp01.txt". A path part is an atomic piece of a path uncombined with any other path parts. Path parts can be combined into path segments, which can be combined into paths.
+- Path segment: a piece (possibly a combination of path parts) of which a path is made. For example, the path "C:\Temp01\Temp02\Temp01.txt" can be decomposed into the path segments "C:\Temp01" and "Temp02\Temp01.txt", or "C:" and "Temp01\Temp02\Temp01.txt", or any other combinations of parts.
+- Path: a path is in fact a path-segment. However it is the special path segment that includes all path parts of a path combined into a single path segment.
 - Root-indicated: If a path starts with a directory separator, then it is root-indicated. The path may not be rooted, and is only root-*indicated*, since determining if a path is rooted requires extra work is required, and in some cases can only be determined from context.
 - Absolute (rooted) path: An absolute (or rooted) path starts with a root. Note that only absolute paths can actually be used to locate file-system resources. All rooted paths are root-indicated, but not all root-indicated paths are rooted.
 - Relative path: A relative path does not start with a root, and must be combined with a rooted path to actually locate a file-system resource. All relative paths are *not* root-indicated.
