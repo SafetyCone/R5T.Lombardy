@@ -962,6 +962,9 @@ namespace R5T.Lombardy
             return output;
         }
 
+        /// <summary>
+        /// Combines a directory path with a file name using the directory separator value detected in the directory path (or if none is detected then the <see cref="DirectorySeparator.Default"/> value) to get a file path.
+        /// </summary>
         public static string GetFilePath(string directoryPath, string fileName)
         {
             var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrDefault(directoryPath);
@@ -1026,6 +1029,17 @@ namespace R5T.Lombardy
         /// </summary>
         public static string GetDirectoryPath(string directoryPath, string directoryName, string directorySeparator)
         {
+            var output = StringlyTypedPath.GetDirectoryPathEnsured(directoryPath, directoryName, directorySeparator);
+            return output;
+        }
+
+        /// <summary>
+        /// Combines a directory path with a directory name using the directory separator detected in the directory path (or if none is detected, then the <see cref="DirectorySeparator.Default"/> value) to get a directory path.
+        /// </summary>
+        public static string GetDirectoryPath(string directoryPath, string directoryName)
+        {
+            var directorySeparator = DirectorySeparator.DetectDirectorySeparatorOrDefault(directoryPath);
+
             var output = StringlyTypedPath.GetDirectoryPathEnsured(directoryPath, directoryName, directorySeparator);
             return output;
         }
