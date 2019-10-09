@@ -650,7 +650,13 @@ namespace R5T.Lombardy
 
         public string[] GetPathParts(string path)
         {
-            var output = StringlyTypedPath.GetPathSegments(path);
+            var output = StringlyTypedPath.GetPathParts(path);
+            return output;
+        }
+
+        public string[] GetAllPathParts(string path)
+        {
+            var output = StringlyTypedPath.GetAllPathParts(path);
             return output;
         }
 
