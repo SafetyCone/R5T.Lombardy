@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using R5T.Lombardy.Test;
 
 
-namespace R5T.Lombardy.Testing.Code.Tests
+namespace R5T.Lombardy.Testing
 {
     [TestClass]
     public class StringlyTypedPathOperatorClassificationTests : StringlyTypedPathOperatorClassificationTestFixture
