@@ -168,6 +168,11 @@ namespace R5T.Lombardy
 
         public static bool IsDirectoryIndicatedPath(string path)
         {
+            if(String.IsNullOrEmpty(path))
+            {
+                return false;
+            }
+
             var terminatingCharacter = StringlyTypedPath.GetTerminatingChar(path);
 
             var isTerminatingCharacterDirectorySeparator = DirectorySeparator.IsDirectorySeparator(terminatingCharacter);
@@ -250,7 +255,7 @@ namespace R5T.Lombardy
 
         public static bool IsUnresolvedPath(string path)
         {
-            var pathSegments = StringlyTypedPath.GetPathSegments(path);
+            var pathSegments = StringlyTypedPath.GetPathParts(path);
 
             foreach (var pathSegment in pathSegments)
             {
@@ -983,7 +988,9 @@ namespace R5T.Lombardy
         /// </summary>
         public static string GetDirectoryPathUnchecked(string directoryPath, string directoryName, string directorySeparator)
         {
-            var output = StringlyTypedPath.CombineUnresolvedUnchecked(directorySeparator, directoryPath, directoryName);
+            var combinedPath = StringlyTypedPath.CombineUnresolvedUnchecked(directorySeparator, directoryPath, directoryName);
+
+            var output = StringlyTypedPath.EnsureDirectoryIndicatedPath(combinedPath);
             return output;
         }
 
@@ -1019,7 +1026,7 @@ namespace R5T.Lombardy
             var ensuredDirectoryPath = StringlyTypedPath.EnsureNotDirectoryIndicatedPath(directoryPath);
             var ensuredDirectoryNameName = StringlyTypedPath.EnsureNotRootIndicatedPath(directoryName);
 
-            var output = StringlyTypedPath.GetFilePathUnchecked(ensuredDirectoryPath, ensuredDirectoryNameName, directorySeparator);
+            var output = StringlyTypedPath.GetDirectoryPathUnchecked(ensuredDirectoryPath, ensuredDirectoryNameName, directorySeparator);
             return output;
         }
 
@@ -1080,9 +1087,21 @@ namespace R5T.Lombardy
 
         /// <summary>
         /// Gets the path segments of a path that are separated by any of the valid directory separators (will provide all path segments for mixed paths).
-        /// Note: for directory indicated paths, the last token will be an empty string since the string split option to keep empty values is chosen.
+        /// Note: for directory or root indicated paths, no empty path parts are returned.
         /// </summary>
-        public static string[] GetPathSegments(string path)
+        public static string[] GetPathParts(string path)
+        {
+            var separators = DirectorySeparator.ValidDirectorySeparatorChars;
+
+            var pathSegments = path.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            return pathSegments;
+        }
+
+        /// <summary>
+        /// Gets the path segments of a path that are separated by any of the valid directory separators (will provide all path segments for mixed paths).
+        /// Note: for directory or root indicated paths, empty path parts (at the end, and at the beginning respectively) are returned.
+        /// </summary>
+        public static string[] GetAllPathParts(string path)
         {
             var separators = DirectorySeparator.ValidDirectorySeparatorChars;
 
@@ -1100,7 +1119,7 @@ namespace R5T.Lombardy
         {
             StringlyTypedPath.ValidateIsFileIndicatedPath(filePath);
 
-            var pathSegments = StringlyTypedPath.GetPathSegments(filePath);
+            var pathSegments = StringlyTypedPath.GetPathParts(filePath);
 
             var fileName = StringlyTypedPath.GetFileNamePathSegment(pathSegments);
             return fileName;
@@ -1126,13 +1145,15 @@ namespace R5T.Lombardy
         {
             StringlyTypedPath.ValidateIsFileIndicatedPath(filePath);
 
-            var pathSegments = StringlyTypedPath.GetPathSegments(filePath);
+            var pathSegments = StringlyTypedPath.GetPathParts(filePath);
 
             var directoryPathSegments = pathSegments.ExceptLast().ToArray();
 
             var directorySeparator = DirectorySeparator.DetectDirectorySeparator(filePath);
 
-            var directoryPath = StringlyTypedPath.CombineUsingDirectorySeparator(directorySeparator, directoryPathSegments);
+            var combinedPath = StringlyTypedPath.CombineUsingDirectorySeparator(directorySeparator, directoryPathSegments);
+
+            var directoryPath = StringlyTypedPath.EnsureDirectoryIndicatedPath(combinedPath);
             return directoryPath;
         }
 
@@ -1140,7 +1161,7 @@ namespace R5T.Lombardy
         {
             StringlyTypedPath.ValidateIsFileIndicatedPath(filePath);
 
-            var pathSegments = StringlyTypedPath.GetPathSegments(filePath);
+            var pathSegments = StringlyTypedPath.GetPathParts(filePath);
 
             var directoryName = pathSegments.SecondToLast();
             return directoryName;
@@ -1150,9 +1171,9 @@ namespace R5T.Lombardy
         {
             StringlyTypedPath.ValidateIsDirectoryIndicatedPath(directoryPath);
 
-            var pathSegments = StringlyTypedPath.GetPathSegments(directoryPath);
+            var pathSegments = StringlyTypedPath.GetPathParts(directoryPath);
 
-            var directoryName = pathSegments.SecondToLast(); // The last will be empty since we have ensured a terminating directory separator.
+            var directoryName = pathSegments.Last();
             return directoryName;
         }
 
@@ -1177,10 +1198,16 @@ namespace R5T.Lombardy
         {
             StringlyTypedPath.ValidateIsDirectoryIndicatedPath(directoryPath);
 
-            var pathSegments = StringlyTypedPath.GetPathSegments(directoryPath);
+            var pathParts = StringlyTypedPath.GetPathParts(directoryPath);
 
-            var parentDirectoryName = pathSegments.NthToLast(3); // The last will be a balnk
-            return parentDirectoryName;
+            var parentDirectoryPathParts = pathParts.ExceptLast().ToArray();
+
+            var directorySeparator = StringlyTypedPath.DetectDirectorySeparator(directoryPath);
+
+            var combinedPath = StringlyTypedPath.CombineUsingDirectorySeparator(directorySeparator, parentDirectoryPathParts);
+
+            var parentDirectoryPath = StringlyTypedPath.EnsureDirectoryIndicatedPath(combinedPath);
+            return parentDirectoryPath;
         }
 
         public static string GetParentDirectoryPathForDirectoryPathEnsured(string directoryPath)
