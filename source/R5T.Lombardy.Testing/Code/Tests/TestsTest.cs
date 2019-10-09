@@ -44,7 +44,8 @@ namespace R5T.Lombardy.Testing
         [TestMethod]
         public void TestStringAValue()
         {
-            Assert.AreEqual(this.StringA, TestsTest.ValueB);
+            //Assert.AreEqual(this.StringA, TestsTest.ValueB);
+            Assert.AreEqual(this.StringA, TestsTest.ValueC);
         }
     }
 }
