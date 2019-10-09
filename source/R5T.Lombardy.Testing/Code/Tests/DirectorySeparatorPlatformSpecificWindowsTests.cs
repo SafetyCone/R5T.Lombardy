@@ -11,6 +11,7 @@ namespace R5T.Lombardy.Testing
     [TestClass]
     public class DirectorySeparatorPlatformSpecificWindowsTests : DirectorySeparatorPlatformSpecificTestFixture
     {
+        public override Platform Platform => Platform.Windows;
         public override char PlatformDirectorySeparatorChar => DirectorySeparator.WindowsChar;
         public override string PlatformDirectorySeparator => DirectorySeparator.Windows;
 
@@ -18,21 +19,6 @@ namespace R5T.Lombardy.Testing
         public DirectorySeparatorPlatformSpecificWindowsTests()
             : base(new DirectorySeparatorOperator())
         {
-        }
-
-        /// <summary>
-        /// Set the platform for use in testing.
-        /// </summary>
-        [ClassInitialize]
-        public static void Initialization(TestContext testContext)
-        {
-            PlatformOperator.Platform = Platform.Windows;
-        }
-
-        [ClassCleanup]
-        public static void Cleanup()
-        {
-            PlatformOperator.ResetPlatform();
         }
     }
 }
