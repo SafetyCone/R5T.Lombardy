@@ -623,6 +623,12 @@ namespace R5T.Lombardy
             return output;
         }
 
+        public string GetDirectoryPath(string directoryPath, string directoryName)
+        {
+            var output = StringlyTypedPath.GetDirectoryPath(directoryPath, directoryName);
+            return output;
+        }
+
         // Separate.
         public string[] GetPathSegmentsUnchecked(string path, string directorySeparator)
         {
@@ -642,7 +648,7 @@ namespace R5T.Lombardy
             return output;
         }
 
-        public string[] GetPathSegments(string path)
+        public string[] GetPathParts(string path)
         {
             var output = StringlyTypedPath.GetPathSegments(path);
             return output;
