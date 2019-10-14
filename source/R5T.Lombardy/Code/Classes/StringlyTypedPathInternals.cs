@@ -43,7 +43,7 @@ namespace R5T.Lombardy.Internals
                 directorySeparator = DirectorySeparator.Windows;
             }
 
-            var prefix = $"{DirectoryName.ParentDirectoryName}{directorySeparator}";
+            var prefix = $"{DirectoryName.ParentRelativeDirectoryName}{directorySeparator}";
 
             var prefixedRelativePath = relativePath.Prefix(prefix);
             return prefixedRelativePath;
