@@ -15,7 +15,7 @@ namespace R5T.Lombardy
         {
             get
             {
-                var executingMachinePlatform = PlatformOperator.ExecutingMachinePlatform;
+                var executingMachinePlatform = PlatformOperations.ExecutingMachinePlatform;
 
                 var output = DirectorySeparator.GetDirectorySeparatorCharForPlatform(executingMachinePlatform);
                 return output;
@@ -25,7 +25,7 @@ namespace R5T.Lombardy
         {
             get
             {
-                var platform = PlatformOperator.Platform;
+                var platform = PlatformOperations.Platform;
 
                 var output = DirectorySeparator.GetDirectorySeparatorCharForPlatform(platform);
                 return output;
@@ -64,7 +64,7 @@ namespace R5T.Lombardy
         {
             get
             {
-                var executingMachinePlatform = PlatformOperator.ExecutingMachinePlatform;
+                var executingMachinePlatform = PlatformOperations.ExecutingMachinePlatform;
 
                 var output = DirectorySeparator.GetDirectorySeparatorForPlatform(executingMachinePlatform);
                 return output;
@@ -77,7 +77,7 @@ namespace R5T.Lombardy
         {
             get
             {
-                var platform = PlatformOperator.Platform;
+                var platform = PlatformOperations.Platform;
 
                 var output = DirectorySeparator.GetDirectorySeparatorForPlatform(platform);
                 return output;
