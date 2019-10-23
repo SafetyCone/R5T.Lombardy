@@ -643,7 +643,7 @@ namespace R5T.Lombardy
         public static string GetRelativePath(string sourcePath, string destinationPath)
         {
             var sourceIsFilePath = StringlyTypedPath.IsFilePath(sourcePath);
-            var destinationIsFilePath = StringlyTypedPath.IsFilePath(sourcePath);
+            var destinationIsFilePath = StringlyTypedPath.IsFilePath(destinationPath);
 
             string relativePath;
             if (sourceIsFilePath)
