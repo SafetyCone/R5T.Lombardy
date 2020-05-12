@@ -146,8 +146,7 @@ namespace R5T.Lombardy
                     return DirectorySeparator.WindowsChar;
 
                 default:
-                    var message = EnumHelper.UnexpectedEnumerationValueMessage(platform);
-                    throw new Exception(message);
+                    throw EnumerationHelper.UnexpectedEnumerationValueException(platform);
             }
         }
 
@@ -162,8 +161,7 @@ namespace R5T.Lombardy
                     return DirectorySeparator.Windows;
 
                 default:
-                    var message = EnumHelper.UnexpectedEnumerationValueMessage(platform);
-                    throw new Exception(message);
+                    throw EnumerationHelper.UnexpectedEnumerationValueException(platform);
             }
         }
 
