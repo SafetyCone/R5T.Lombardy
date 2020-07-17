@@ -33,7 +33,7 @@ namespace R5T.Lombardy
         /// <summary>
         /// Adds the <see cref="StringlyTypedPathOperator"/> implementation of <see cref="IStringlyTypedPathOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
-        public static ServiceAction<IStringlyTypedPathOperator> AddDefaultStringlyTypedPathOperatorAction(this IServiceCollection services)
+        public static IServiceAction<IStringlyTypedPathOperator> AddDefaultStringlyTypedPathOperatorAction(this IServiceCollection services)
         {
             var serviceAction = new ServiceAction<IStringlyTypedPathOperator>(() => services.AddDefaultStringlyTypedPathOperator());
 
