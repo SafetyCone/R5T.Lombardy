@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 using R5T.Magyar;
 using R5T.Magyar.Extensions;
-using R5T.Magyar.Extensions.Object;
 
 using R5T.Lombardy.Internals;
 

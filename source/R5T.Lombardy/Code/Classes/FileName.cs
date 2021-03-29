@@ -3,7 +3,7 @@ using System.IO;
 
 using R5T.Cherusci;
 using R5T.Magyar;
-using R5T.Magyar.Extensions.Object;
+using R5T.Magyar.Extensions;
 
 
 namespace R5T.Lombardy
