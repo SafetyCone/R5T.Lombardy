@@ -39,5 +39,107 @@ namespace R5T.Lombardy
 
             return serviceAction;
         }
+
+        /// <summary>
+        /// Adds the <see cref="DirectoryNameOperator"/> implementation of <see cref="IDirectoryNameOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddDirectoryNameOperator(this IServiceCollection services)
+        {
+            services.AddSingleton<IDirectoryNameOperator, DirectoryNameOperator>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="DirectoryNameOperator"/> implementation of <see cref="IDirectoryNameOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceAction<IDirectoryNameOperator> AddDirectoryNameOperatorAction(this IServiceCollection services)
+        {
+            var serviceAction = ServiceAction.New<IDirectoryNameOperator>(() => services.AddDirectoryNameOperator());
+            return serviceAction;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="DirectorySeparatorOperator"/> implementation of <see cref="IDirectorySeparatorOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddDirectorySeparatorOperator(this IServiceCollection services)
+        {
+            services.AddSingleton<IDirectorySeparatorOperator, DirectorySeparatorOperator>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="DirectorySeparatorOperator"/> implementation of <see cref="IDirectorySeparatorOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceAction<IDirectorySeparatorOperator> AddDirectorySeparatorOperatorAction(this IServiceCollection services)
+        {
+            var serviceAction = ServiceAction.New<IDirectorySeparatorOperator>(() => services.AddDirectorySeparatorOperator());
+            return serviceAction;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="FileExtensionOperator"/> implementation of <see cref="IFileExtensionOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddFileExtensionOperator(this IServiceCollection services)
+        {
+            services.AddSingleton<IFileExtensionOperator, FileExtensionOperator>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="FileExtensionOperator"/> implementation of <see cref="IFileExtensionOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceAction<IFileExtensionOperator> AddFileExtensionOperatorAction(this IServiceCollection services)
+        {
+            var serviceAction = ServiceAction.New<IFileExtensionOperator>(() => services.AddFileExtensionOperator());
+            return serviceAction;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="FileNameOperator"/> implementation of <see cref="IFileNameOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddFileNameOperator(this IServiceCollection services)
+        {
+            services.AddSingleton<IFileNameOperator, FileNameOperator>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="FileNameOperator"/> implementation of <see cref="IFileNameOperator"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceAction<IFileNameOperator> AddFileNameOperatorAction(this IServiceCollection services)
+        {
+            var serviceAction = ServiceAction.New<IFileNameOperator>(() => services.AddFileNameOperator());
+            return serviceAction;
+        }
+
+        public static
+            (
+            IServiceAction<IDirectoryNameOperator> DirectoryNameOperatorAction,
+            IServiceAction<IDirectorySeparatorOperator> DirectorySeparatorOperatorAction,
+            IServiceAction<IFileExtensionOperator> FileExtensionOperatorAction,
+            IServiceAction<IFileNameOperator> FileNameOperatorAction,
+            IServiceAction<IStringlyTypedPathOperator> StringlyTypedPathOperatorAction
+            )
+        AddPathRelatedOperatorsAction(this IServiceCollection services)
+        {
+            var directoryNameOperatorAction = services.AddDirectoryNameOperatorAction();
+            var directorySeparatorOperatorAction = services.AddDirectorySeparatorOperatorAction();
+            var fileExtensionOperatorAction = services.AddFileExtensionOperatorAction();
+            var fileNameOperatorAction = services.AddFileNameOperatorAction();
+            var stringlyTypedPathOperatorAction = services.AddDefaultStringlyTypedPathOperatorAction();
+
+            return
+                (
+                directoryNameOperatorAction,
+                directorySeparatorOperatorAction,
+                fileExtensionOperatorAction,
+                fileNameOperatorAction,
+                stringlyTypedPathOperatorAction
+                );
+        }
     }
 }
