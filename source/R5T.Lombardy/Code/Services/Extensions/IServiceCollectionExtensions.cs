@@ -116,15 +116,7 @@ namespace R5T.Lombardy
             return serviceAction;
         }
 
-        public static
-            (
-            IServiceAction<IDirectoryNameOperator> DirectoryNameOperatorAction,
-            IServiceAction<IDirectorySeparatorOperator> DirectorySeparatorOperatorAction,
-            IServiceAction<IFileExtensionOperator> FileExtensionOperatorAction,
-            IServiceAction<IFileNameOperator> FileNameOperatorAction,
-            IServiceAction<IStringlyTypedPathOperator> StringlyTypedPathOperatorAction
-            )
-        AddPathRelatedOperatorsAction(this IServiceCollection services)
+        public static PathRelatedOperatorsAggregation01 AddPathRelatedOperatorsAction(this IServiceCollection services)
         {
             var directoryNameOperatorAction = services.AddDirectoryNameOperatorAction();
             var directorySeparatorOperatorAction = services.AddDirectorySeparatorOperatorAction();
@@ -132,14 +124,14 @@ namespace R5T.Lombardy
             var fileNameOperatorAction = services.AddFileNameOperatorAction();
             var stringlyTypedPathOperatorAction = services.AddDefaultStringlyTypedPathOperatorAction();
 
-            return
-                (
-                directoryNameOperatorAction,
-                directorySeparatorOperatorAction,
-                fileExtensionOperatorAction,
-                fileNameOperatorAction,
-                stringlyTypedPathOperatorAction
-                );
+            return new PathRelatedOperatorsAggregation01
+            {
+                DirectoryNameOperatorAction = directoryNameOperatorAction,
+                DirectorySeparatorOperatorAction = directorySeparatorOperatorAction,
+                FileExtensionOperatorAction = fileExtensionOperatorAction,
+                FileNameOperatorAction = fileNameOperatorAction,
+                StringlyTypedPathOperatorAction = stringlyTypedPathOperatorAction,
+            };
         }
     }
 }
