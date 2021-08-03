@@ -691,7 +691,7 @@ namespace R5T.Lombardy
             // The Uri.MakeRelativeUri() method requires directory paths to be directory-indicated, else the path is assumed to be a file path. This only matters for the source path.
             var directoryIndicatedDestinationDirectoryPath = StringlyTypedPath.EnsureDirectoryPathIsDirectoryIndicated(destinationDirectoryPath);
 
-            var relativePath = StringlyTypedPathInternals.GetRelativePathOutputWindowsIfWindows(sourceFilePath, destinationDirectoryPath);
+            var relativePath = StringlyTypedPathInternals.GetRelativePathOutputWindowsIfWindows(sourceFilePath, directoryIndicatedDestinationDirectoryPath);
             return relativePath;
         }
 
@@ -854,7 +854,10 @@ namespace R5T.Lombardy
             }
 
             // Join all segments using the specified directory separator.
-            var output = String.Join(directorySeparator, ensuredSegments);
+            var output = ensuredSegments.Length == 1
+                ? ensuredSegments[0] + directorySeparator
+                : String.Join(directorySeparator, ensuredSegments);
+
             return output;
         }
 
