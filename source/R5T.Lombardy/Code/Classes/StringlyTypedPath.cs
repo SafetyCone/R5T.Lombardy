@@ -827,6 +827,11 @@ namespace R5T.Lombardy
             DirectorySeparator.Validate(directorySeparator);
 
             var nSegments = pathSegments.Length;
+            if (nSegments == 0)
+            {
+                return String.Empty;
+            }
+
             var ensuredSegments = pathSegments.Copy();
 
             // Ensure that all segments (except the last) are not directory indicated.
@@ -1175,6 +1180,11 @@ namespace R5T.Lombardy
             StringlyTypedPath.ValidateIsDirectoryIndicatedPath(directoryPath);
 
             var pathSegments = StringlyTypedPath.GetPathParts(directoryPath);
+
+            if(!pathSegments.Any())
+            {
+                return String.Empty;
+            }
 
             var directoryName = pathSegments.Last();
             return directoryName;
