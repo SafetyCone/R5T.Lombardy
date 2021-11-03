@@ -1,11 +1,12 @@
 ﻿using System;
 
-using R5T.Lombardy.Base;
+using R5T.T0064;
 
 
 namespace R5T.Lombardy
 {
-    public class FileNameOperator : IFileNameOperator
+    [ServiceImplementationMarker]
+    public class FileNameOperator : IFileNameOperator, IServiceImplementation
     {
         public char DefaultFileNameSegmentSeparatorChar => FileName.DefaultFileNameSegmentSeparatorChar;
         public string DefaultFileNameSegmentSeparator => FileName.DefaultFileNameSegmentSeparator;

@@ -1,9 +1,12 @@
 ﻿using System;
 
+using R5T.T0064;
+
 
 namespace R5T.Lombardy
 {
-    public class StringlyTypedPathOperator : IStringlyTypedPathOperator
+    [ServiceImplementationMarker]
+    public class StringlyTypedPathOperator : IStringlyTypedPathOperator, IServiceImplementation
     {
         public bool ExistsFilePath(string filePath)
         {

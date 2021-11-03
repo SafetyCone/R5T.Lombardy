@@ -1,11 +1,12 @@
 ﻿using System;
 
-using R5T.Lombardy.Base;
+using R5T.T0064;
 
 
 namespace R5T.Lombardy
 {
-    public class DirectoryNameOperator : IDirectoryNameOperator
+    [ServiceImplementationMarker]
+    public class DirectoryNameOperator : IDirectoryNameOperator, IServiceImplementation
     {
         public char DefaultDirectoryNameSegmentSeparatorChar => DirectoryName.DefaultDirectoryNameSegmentSeparatorChar;
         public string DefaultDirectoryNameSegmentSeparator => DirectoryName.DefaultDirectoryNameSegmentSeparator;

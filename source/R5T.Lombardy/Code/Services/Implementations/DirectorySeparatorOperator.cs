@@ -2,10 +2,13 @@
 
 using R5T.Rugia;
 
+using R5T.T0064;
+
 
 namespace R5T.Lombardy
 {
-    public class DirectorySeparatorOperator : IDirectorySeparatorOperator
+    [ServiceImplementationMarker]
+    public class DirectorySeparatorOperator : IDirectorySeparatorOperator, IServiceImplementation
     {
         public char InvalidDirectorySeparatorChar => DirectorySeparator.InvalidChar;
         public char WindowsDirectorySeparatorChar => DirectorySeparator.WindowsChar;
