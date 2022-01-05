@@ -577,7 +577,7 @@ namespace R5T.Lombardy
         /// Attempts to detect the directory separator (Windows or non-Windows) used within a path segment.
         /// Returns true if the a directory separator can be detected, and sets the output <paramref name="directorySeparator"/> to the detected value.
         /// Returns false if a directory separator cannot be detected, and sets the output <paramref name="directorySeparator"/> to the provided <paramref name="defaultDirectorySeparator"/> value.
-        /// Returns true if both (mixed) directory separators are detected, and sets the sets the output <paramref name="directorySeparator"/> to the detected value.
+        /// Returns true if both (mixed) directory separators are detected, and sets the sets the output <paramref name="directorySeparator"/> to the dominant value.
         /// A path segment might have both Windows and non-Windows directory separators. Whichever directory separator occurs first in the path segment (thus, closer to the root) is dominant, and is returned as the path segment's directory separator.
         /// </summary>
         public static bool TryDetectDirectorySeparator(string pathSegment, out string directorySeparator, string defaultDirectorySeparator)
