@@ -22,7 +22,7 @@ namespace R5T.Lombardy
 
         public static string[] GetFileNameSegments(string fileName, string fileNameSegmentSeparator)
         {
-            var fileNameSegments = fileName.Split(fileNameSegmentSeparator.ToArray(), StringSplitOptions.None);
+            var fileNameSegments = fileName.Split(fileNameSegmentSeparator.ToArray_FromSingle(), StringSplitOptions.None);
             return fileNameSegments;
         }
 
